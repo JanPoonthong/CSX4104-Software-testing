@@ -12,9 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className} antialiased>
-        {children}
-      </body>
+      <head>
+        <link rel="icon" href="/107806435.png" sizes="32x32" />
+      </head>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   )
 }
