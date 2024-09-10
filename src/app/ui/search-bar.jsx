@@ -13,7 +13,7 @@ export default function SearchBar() {
     <form className="relative" onSubmit={handleSubmit}>
       <input
         type="text"
-        className="border border-slate-400 p-2 pr-9 rounded-lg w-[203.75px]"
+        className="border border-slate-400 p-2 pr-9 rounded-lg w-[203.75px] focus:ring focus:outline-none focus:ring-blue-300"
         name="search"
       />
       <button type="submit">
