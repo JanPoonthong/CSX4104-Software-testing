@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main className="max-w-5xl mx-auto my-5 px-4">
       <div className="flex justify-between my-3 items-center">
-        <div className='flex gap-5 '>
+        <div className="flex gap-5 ">
           <ProvinceSelector />
           <DatePicker title={'Start date'} />
           <DatePicker title={'End date'} />
