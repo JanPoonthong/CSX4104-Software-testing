@@ -4,7 +4,7 @@ export const monitors = [
     location: 'Assumption University',
     keyword: 'Bang Bo',
     province: 'Samut Prakan',
-    imageSrc: '',
+    imageSrc: 'image0.jpg',
     imageAlt: '',
   },
   {
