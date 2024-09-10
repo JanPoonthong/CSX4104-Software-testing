@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-export default function DatePicker({ labelName }) {
+export default function DatePicker({ title }) {
   const [selectedDate, setSelectedDate] = useState('')
   const [isFocused, setIsFocused] = useState(false)
 
@@ -16,15 +16,15 @@ export default function DatePicker({ labelName }) {
   return (
     <div className="relative">
       <label
-        htmlFor={`date-picker-${labelName}`}
+        htmlFor={`date-picker-${title}`}
         className={`floating-label ${isFocused || selectedDate ? 'active' : ''}`}
       >
-        {labelName}
+        {title}
       </label>
       <input
         className="border border-slate-400 p-2 rounded-lg date-input"
         type="date"
-        id={`date-picker-${labelName}`}
+        id={`date-picker-${title}`}
         value={selectedDate}
         onChange={handleDateChange}
         onFocus={handleFocus}
