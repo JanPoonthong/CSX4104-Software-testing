@@ -5,7 +5,7 @@ export const monitors = [
     keyword: 'Bang Bo',
     province: 'Samut Prakan',
     imageSrc: 'image0.jpg',
-    imageAlt: '',
+    imageAlt: 'ABAC, AU',
   },
   {
     id: 14,
