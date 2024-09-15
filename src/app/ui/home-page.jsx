@@ -4,7 +4,7 @@ import MonitorCard from '@/app/ui/monitor-card'
 import ProvinceSelector from '@/app/ui/province-selector'
 import DatePicker from '@/app/ui/data-picker'
 import SearchBar from '@/app/ui/search-bar'
-import { monitors } from '@/app/lib/data'
+import { monitors } from '@/app/lib/monitor-data'
 import { useState } from 'react'
 
 export default function HomePage() {
