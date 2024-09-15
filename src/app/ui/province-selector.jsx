@@ -2,15 +2,17 @@
 import { useState } from 'react'
 import provinces from '@/app/lib/province.json'
 
-export default function ProvinceSelector() {
+export default function ProvinceSelector({
+  selectedProvince,
+  onProvinceChange,
+}) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedProvinces, setSelectedProvinces] = useState([])
 
   const toggleDropDown = () => setIsOpen(!isOpen)
 
   const handleCheckboxChange = (event) => {
     const province = event.target.value
-    // setSelectedProvinces((prevArray) => [...prevArray, province])
+    onProvinceChange(province)
   }
 
   return (
@@ -42,11 +44,12 @@ export default function ProvinceSelector() {
           <ul className="py-2 text-sm text-gray-700 max-h-60 overflow-y-auto">
             {provinces.map((province) => (
               <li
-                className={`block px-4 py-2 hover:bg-gray-100 ${selectedProvinces?.includes(province) ? 'bg-gray-100' : ''}`}
+                className={`block px-4 py-2 hover:bg-gray-100`}
                 key={province.id}
               >
                 <div className="flex items-center">
                   <input
+                    checked={selectedProvince.includes(province.name_en)}
                     id={province.id}
                     type="checkbox"
                     value={province.name_en}
