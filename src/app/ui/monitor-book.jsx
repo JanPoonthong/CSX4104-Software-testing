@@ -52,7 +52,7 @@ export default function MonitorBook() {
             required
           />
         </div>
-        <div className='flex justify-between flex-wrap gap-3 items-center'>
+        <div className="flex justify-between flex-wrap gap-3 items-center">
           <DatePicker title={'Start date'} />
           <p>-</p>
           <DatePicker title={'End date'} />
