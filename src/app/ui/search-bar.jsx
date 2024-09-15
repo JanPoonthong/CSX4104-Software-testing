@@ -1,12 +1,14 @@
 'use client'
+
 import Image from 'next/image'
 
-export default function SearchBar() {
+export default function SearchBar({ onSearchTermSubmit }) {
   const handleSubmit = (event) => {
     event.preventDefault()
 
     const formData = new FormData(event.target)
     const searchTerm = formData.get('search')
+    onSearchTermSubmit(searchTerm)
   }
 
   return (
