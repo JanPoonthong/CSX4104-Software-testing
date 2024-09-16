@@ -37,3 +37,6 @@ next-env.d.ts
 
 .vimrc
 db/
+
+credentials.txt
+scripts/
