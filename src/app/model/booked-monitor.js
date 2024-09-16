@@ -6,9 +6,24 @@ const BookedMonitorSchema = new Schema(
   {
     monitor: {
       type: mongoose.Schema.Types.ObjectId,
-      unique: true,
       required: true,
       ref: 'Monitor',
+    },
+    advertisementName: {
+      type: String,
+      require: true,
+    },
+    advertisementDescription: {
+      type: String,
+      require: true,
+    },
+    startDate: {
+      type: Date,
+      require: true,
+    },
+    endDate: {
+      type: Date,
+      require: true,
     },
   },
   {
@@ -16,5 +31,7 @@ const BookedMonitorSchema = new Schema(
   }
 )
 
-export default mongoose.models.Monitor ||
+BookedMonitorSchema.index({ monitor: 1, bookingTime: 1 }, { unique: true })
+
+export default mongoose.models.BookedMonitor ||
   mongoose.model('BookedMonitor', BookedMonitorSchema)

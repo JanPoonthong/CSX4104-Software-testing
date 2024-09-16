@@ -7,14 +7,13 @@ export default function MonitorCard({ monitor }) {
   return (
     <>
       <Link
-        key={monitor.id}
-        href="/book"
-        className="basis-[calc(50%-0.5rem)] flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
+        href={monitor.max === 2 ? '#' : `/book/${monitor._id}`}
+        className={`${monitor.isDisable ? 'filter grayscale bg-slate-100' : ''} basis-[calc(50%-0.5rem)] flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100`}
       >
         <Image
           src={`/billboards/${monitor.imageSrc}`}
-          className="object-cover w-full rounded-t-lg h-96 md:h-48 md:w-48 md:rounded-none md:rounded-s-lg"
-          alt={monitor.imageAlt}
+          className={`object-cover w-full rounded-t-lg h-96 md:h-48 md:w-48 md:rounded-none md:rounded-s-lg`}
+          alt={monitor.location}
           width={300}
           height={300}
         />

@@ -3,7 +3,7 @@ import { monitors } from '../src/app/lib/monitor-data.js'
 import Monitor from '../src/app/model/monitor.js'
 import mongoose from 'mongoose'
 
-async function seedMonitors(client) {
+async function seedMonitors() {
   try {
     await Monitor.insertMany(monitors)
   } catch (error) {
