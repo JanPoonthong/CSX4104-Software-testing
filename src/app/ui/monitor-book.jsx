@@ -2,10 +2,12 @@
 
 import DatePicker from '@/app/ui/data-picker'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function MonitorBook({ monitorId }) {
   const [selectedStartDate, setSelectedStartDate] = useState('')
   const [selectedEndDate, setSelectedEndDate] = useState('')
+  const router = useRouter()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -21,6 +23,7 @@ export default function MonitorBook({ monitorId }) {
     }
 
     await BookedMonitorAPI(data)
+    router.push('/rate')
   }
 
   const BookedMonitorAPI = async (data) => {
