@@ -21,11 +21,13 @@ const MonitorSchema = new Schema(
       type: String,
       required: true,
     },
-    max: {
-      type: Number,
-      required: true,
-      max: 3,
-      default: 0,
+    startDate: {
+      type: Date,
+      default: new Date('1990-01-01'),
+    },
+    endDate: {
+      type: Date,
+      default: new Date('1990-01-01'),
     },
   },
   {

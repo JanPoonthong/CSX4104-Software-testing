@@ -1,9 +1,49 @@
-import DatePicker from '@/app/ui/data-picker'
+'use client'
 
-export default function MonitorBook() {
+import DatePicker from '@/app/ui/data-picker'
+import { useState } from 'react'
+
+export default function MonitorBook({ monitorId }) {
+  const [selectedStartDate, setSelectedStartDate] = useState('')
+  const [selectedEndDate, setSelectedEndDate] = useState('')
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target)
+
+    const data = {
+      monitorId: monitorId,
+      advertisementName: formData.get('advertisement_name'),
+      advertisementDescription: formData.get('advertisement_description'),
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+    }
+
+    await BookedMonitorAPI(data)
+  }
+
+  const BookedMonitorAPI = async (data) => {
+    try {
+      const response = await fetch(`/api/book-monitor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      const result = await response.json()
+      if (response.ok) {
+        console.log('Monitor booked:', result)
+      } else {
+        console.error('Error:', result.message)
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+    }
+  }
+
   return (
     <div className="w-1/2 p-4 border border-gray-200">
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         <h5 className="text-xl font-medium text-gray-900">
           Upload Your Advertisement
         </h5>
@@ -53,9 +93,17 @@ export default function MonitorBook() {
           />
         </div>
         <div className="flex justify-between flex-wrap gap-3 items-center">
-          <DatePicker title={'Start date'} />
+          <DatePicker
+            title={'Start date'}
+            selectedDate={selectedStartDate}
+            setSelectedDate={setSelectedStartDate}
+          />
           <p>-</p>
-          <DatePicker title={'End date'} />
+          <DatePicker
+            title={'End date'}
+            selectedDate={selectedEndDate}
+            setSelectedDate={setSelectedEndDate}
+          />
         </div>
         <button
           type="submit"
