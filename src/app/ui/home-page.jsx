@@ -5,6 +5,7 @@ import ProvinceSelector from '@/app/ui/province-selector'
 import DatePicker from '@/app/ui/data-picker'
 import SearchBar from '@/app/ui/search-bar'
 import { useState, useEffect } from 'react'
+import { isDateBetween } from '@/app/lib/helper'
 
 export default function HomePage() {
   const [selectedProvince, setSelectedProvince] = useState('')
@@ -54,14 +55,6 @@ export default function HomePage() {
           key.toLowerCase().includes(searchTerm.toLowerCase())
         )
       })
-    }
-
-    function isDateBetween(dateToCheck, startDate, endDate) {
-      const start = new Date(startDate)
-      const end = new Date(endDate)
-      const check = new Date(dateToCheck)
-
-      return check >= start && check <= end
     }
 
     if (startDate || endDate) {
