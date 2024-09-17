@@ -59,13 +59,17 @@ export default function HomePage() {
 
     if (startDate || endDate) {
       tempMonitors = monitors.map((monitor) => {
-        monitor.isDisable = false
-        if (isDateBetween(startDate, monitor.startDate, monitor.endDate)) {
-          monitor.isDisable = true
-          monitor.available = new Date(monitor.endDate)
-          monitor.available.setDate(monitor.available.getDate() + 1)
+        const newMonitor = { ...monitor }
+
+        newMonitor.isDisable = false
+        if (
+          isDateBetween(startDate, newMonitor.startDate, newMonitor.endDate)
+        ) {
+          newMonitor.isDisable = true
+          newMonitor.available = new Date(newMonitor.endDate)
+          newMonitor.available.setDate(newMonitor.available.getDate() + 1)
         }
-        return monitor
+        return newMonitor
       })
     }
 
