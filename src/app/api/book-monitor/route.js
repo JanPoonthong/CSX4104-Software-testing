@@ -36,6 +36,8 @@ export async function POST(request) {
       monitor.endDate = newBooking.endDate
     }
 
+    monitor.startDate = newBooking.startDate
+
     await monitor.save()
 
     return NextResponse.json(

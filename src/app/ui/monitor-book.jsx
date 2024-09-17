@@ -22,11 +22,11 @@ export default function MonitorBook({ monitorId }) {
       endDate: selectedEndDate,
     }
 
-    await BookedMonitorAPI(data)
-    router.push('/rate')
+    await bookedMonitorAPI(data)
+    router.push(`/rate/${monitorId}`)
   }
 
-  const BookedMonitorAPI = async (data) => {
+  const bookedMonitorAPI = async (data) => {
     try {
       const response = await fetch(`/api/book-monitor`, {
         method: 'POST',
