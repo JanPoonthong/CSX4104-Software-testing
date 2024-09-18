@@ -88,11 +88,13 @@ export default function HomePage() {
             title={'Start date'}
             selectedDate={startDate}
             setSelectedDate={setStartDate}
+            bookedDates={[]}
           />
           <DatePicker
             title={'End date'}
             selectedDate={endDate}
             setSelectedDate={setEndDate}
+            bookedDates={[]}
           />
         </div>
         <div>

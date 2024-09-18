@@ -1,12 +1,14 @@
 'use client'
 
 import DatePicker from '@/app/ui/data-picker'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function MonitorBook({ monitorId }) {
   const [selectedStartDate, setSelectedStartDate] = useState('')
   const [selectedEndDate, setSelectedEndDate] = useState('')
+  const [monitor, setMonitor] = useState()
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   const handleSubmit = async (event) => {
@@ -26,6 +28,33 @@ export default function MonitorBook({ monitorId }) {
     router.push(`/rate/${monitorId}`)
   }
 
+  useEffect(() => {
+    const monitorAPI = async () => {
+      try {
+        const response = await fetch(`/api/book-monitor`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        const result = await response.json()
+        if (response.ok) {
+          console.log('Monitors:', result)
+          const monitorData = result.data.filter(
+            (each) => each.monitor === monitorId
+          )
+          setMonitor(monitorData)
+        } else {
+          console.error('Error:', result.message)
+        }
+      } catch (error) {
+        console.error('Error getting monitors:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    monitorAPI()
+  }, [monitorId])
+
   const bookedMonitorAPI = async (data) => {
     try {
       const response = await fetch(`/api/book-monitor`, {
@@ -43,6 +72,10 @@ export default function MonitorBook({ monitorId }) {
       console.error('Error submitting form:', error)
     }
   }
+
+  if (loading) return <p>Loading...</p>
+
+  console.log(monitor)
 
   return (
     <div className="w-1/2 p-4 border border-gray-200">
@@ -100,12 +133,14 @@ export default function MonitorBook({ monitorId }) {
             title={'Start date'}
             selectedDate={selectedStartDate}
             setSelectedDate={setSelectedStartDate}
+            bookedDates={monitor}
           />
           <p>-</p>
           <DatePicker
             title={'End date'}
             selectedDate={selectedEndDate}
             setSelectedDate={setSelectedEndDate}
+            bookedDates={monitor}
           />
         </div>
         <button

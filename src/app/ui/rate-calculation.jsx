@@ -11,14 +11,17 @@ export default function RateCalculation({ monitorId }) {
   useEffect(() => {
     const monitorAPI = async () => {
       try {
-        const response = await fetch(`/api/monitors`, {
+        const response = await fetch(`/api/book-monitor`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         })
         const result = await response.json()
+        console.log(result)
         if (response.ok) {
           console.log('Monitors:', result)
-          const monitorData = result.data.find((each) => each._id === monitorId)
+          const monitorData = result.data.find(
+            (each) => each.monitor === monitorId
+          )
           setMonitor(monitorData)
         } else {
           console.error('Error:', result.message)
