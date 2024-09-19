@@ -7,7 +7,6 @@ const BookedMonitorSchema = new Schema(
     monitor: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'Monitor',
     },
     advertisementName: {
       type: String,
