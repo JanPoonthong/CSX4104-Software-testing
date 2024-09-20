@@ -14,6 +14,7 @@ export default function HomePage() {
   const [monitors, setMonitors] = useState([])
   const [startDate, setStartDate] = useState()
   const [endDate, setEndDate] = useState()
+  const [bookedMonitors, setBookedMonitors] = useState([])
 
   const handleProvinceChange = (province) => {
     setSelectedProvince(province)
@@ -37,8 +38,40 @@ export default function HomePage() {
     }
   }
 
+  const fetchBookedMonitorsAPI = async () => {
+    try {
+      const response = await fetch('/api/book-monitor', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const result = await response.json()
+      if (response.ok) {
+        // console.log('Fetch Monitors:', result)
+        setBookedMonitors(result.data)
+      } else {
+        console.error('Error:', result.message)
+      }
+    } catch (error) {
+      console.error('Error fetching monitors:', error)
+    }
+  }
+
+  const unavailableDates = bookedMonitors.reduce((acc, range) => {
+    const start = new Date(range.startDate)
+    const end = new Date(range.endDate)
+
+    for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+      acc.push({ date: new Date(d), monitor: range.monitor })
+    }
+
+    return acc
+  }, [])
+
+  console.log(unavailableDates)
+
   useEffect(() => {
     fetchMonitorsAPI()
+    fetchBookedMonitorsAPI()
   }, [])
 
   useEffect(() => {
@@ -57,24 +90,39 @@ export default function HomePage() {
       })
     }
 
+    // If a date range is selected, check for overlaps with unavailableDates
     if (startDate || endDate) {
-      tempMonitors = monitors.map((monitor) => {
+      tempMonitors = tempMonitors.map((monitor) => {
         const newMonitor = { ...monitor }
 
         newMonitor.isDisable = false
-        if (
-          isDateBetween(startDate, newMonitor.startDate, newMonitor.endDate)
-        ) {
-          newMonitor.isDisable = true
-          newMonitor.available = new Date(newMonitor.endDate)
-          newMonitor.available.setDate(newMonitor.available.getDate() + 1)
-        }
+
+        // Check if the selected date range overlaps with the monitor's unavailable dates
+        unavailableDates.forEach((unavailable) => {
+          if (
+            unavailable.monitor === newMonitor._id && // Match the monitor
+            // Check if there is any overlap between selected range and unavailable range
+            startDate &&
+            unavailable.date >= new Date(startDate) &&
+            unavailable.date <= new Date(endDate)
+          ) {
+            newMonitor.isDisable = true
+          }
+        })
+
         return newMonitor
       })
     }
 
     setFilteredMonitors(tempMonitors)
-  }, [searchTerm, selectedProvince, monitors, startDate, endDate])
+  }, [
+    searchTerm,
+    selectedProvince,
+    monitors,
+    startDate,
+    endDate,
+    unavailableDates,
+  ])
 
   return (
     <>
