@@ -4,8 +4,7 @@ import MonitorCard from '@/app/ui/monitor-card'
 import ProvinceSelector from '@/app/ui/province-selector'
 import DatePicker from '@/app/ui/data-picker'
 import SearchBar from '@/app/ui/search-bar'
-import { useState, useEffect } from 'react'
-import { isDateBetween } from '@/app/lib/helper'
+import { useState, useEffect, useMemo } from 'react'
 
 export default function HomePage() {
   const [selectedProvince, setSelectedProvince] = useState('')
@@ -28,7 +27,6 @@ export default function HomePage() {
       })
       const result = await response.json()
       if (response.ok) {
-        // console.log('Fetch Monitors:', result)
         setMonitors(result.data)
       } else {
         console.error('Error:', result.message)
@@ -46,7 +44,6 @@ export default function HomePage() {
       })
       const result = await response.json()
       if (response.ok) {
-        // console.log('Fetch Monitors:', result)
         setBookedMonitors(result.data)
       } else {
         console.error('Error:', result.message)
@@ -56,18 +53,19 @@ export default function HomePage() {
     }
   }
 
-  const unavailableDates = bookedMonitors.reduce((acc, range) => {
-    const start = new Date(range.startDate)
-    const end = new Date(range.endDate)
+  // Memoize unavailableDates so that it's recalculated only when bookedMonitors changes
+  const unavailableDates = useMemo(() => {
+    return bookedMonitors.reduce((acc, range) => {
+      const start = new Date(range.startDate)
+      const end = new Date(range.endDate)
 
-    for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
-      acc.push({ date: new Date(d), monitor: range.monitor })
-    }
+      for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+        acc.push({ date: new Date(d), monitor: range.monitor })
+      }
 
-    return acc
-  }, [])
-
-  console.log(unavailableDates)
+      return acc
+    }, [])
+  }, [bookedMonitors])
 
   useEffect(() => {
     fetchMonitorsAPI()
@@ -94,14 +92,12 @@ export default function HomePage() {
     if (startDate || endDate) {
       tempMonitors = tempMonitors.map((monitor) => {
         const newMonitor = { ...monitor }
-
         newMonitor.isDisable = false
 
         // Check if the selected date range overlaps with the monitor's unavailable dates
         unavailableDates.forEach((unavailable) => {
           if (
             unavailable.monitor === newMonitor._id && // Match the monitor
-            // Check if there is any overlap between selected range and unavailable range
             startDate &&
             unavailable.date >= new Date(startDate) &&
             unavailable.date <= new Date(endDate)
