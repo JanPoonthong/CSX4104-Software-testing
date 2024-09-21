@@ -47,7 +47,7 @@ export async function GET(request) {
   try {
     await connectDB()
 
-    const result = await BookedMonitor.find()
+    const result = await BookedMonitor.find().sort({ createdAt: -1 })
 
     return NextResponse.json(
       { status: 'success', data: result },
