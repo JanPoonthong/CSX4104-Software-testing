@@ -16,9 +16,7 @@ export default function RateCalculation({ monitorId }) {
           headers: { 'Content-Type': 'application/json' },
         })
         const result = await response.json()
-        console.log(result)
         if (response.ok) {
-          console.log('Monitors:', result)
           const monitorData = result.data.find(
             (each) => each.monitor === monitorId
           )
