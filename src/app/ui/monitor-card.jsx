@@ -7,7 +7,7 @@ export default function MonitorCard({ monitor }) {
   return (
     <>
       <Link
-        href={monitor.max === 2 ? '#' : `/book/${monitor._id}`}
+        href={monitor.isDisable ? '#' : `/book/${monitor._id}`}
         className={`${monitor.isDisable ? 'filter grayscale bg-slate-100' : ''} basis-[calc(50%-0.5rem)] flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100`}
       >
         <Image
